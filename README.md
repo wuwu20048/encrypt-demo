@@ -1,8 +1,9 @@
 # the bug report demo
+the issue: https://github.com/apache/shardingsphere/issues/12994#issue-1022675388
+the shardingsphere-jdbc version:5.0.0-beta
+- create a table customer in your local mysql databse,you can excute the schema.sql;
 
-create a table customer in your local mysql databse,you can excute the schema.sql;
-
-just run EncryptDemoApplication
+- just run EncryptDemoApplication
 
 first step: no config the encrypt rule,it will throw exception
 
@@ -62,3 +63,34 @@ spring.shardingsphere.rules.encrypt.tables.customer.columns.first_name.encryptor
 ```
 
 
+it also run well with the version 4.1.1,you can try
+
+```xml
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-namespace</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+```
+4.1.1 config properties
+````
+spring.shardingsphere.datasource.name=ds
+spring.shardingsphere.datasource.ds.type=com.zaxxer.hikari.HikariDataSource
+spring.shardingsphere.datasource.ds.driver-class-name=com.mysql.jdbc.Driver
+spring.shardingsphere.datasource.ds.jdbc-url=jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+spring.shardingsphere.datasource.ds.username=root
+spring.shardingsphere.datasource.ds.password=wnw2004820048
+spring.shardingsphere.encrypt.encryptors.encryptor_aes.type=aes
+spring.shardingsphere.encrypt.encryptors.encryptor_aes.props.aes.key.value=1234567890123456
+#spring.shardingsphere.encrypt.tables.customer.columns.first_name.plainColumn=first_name
+#spring.shardingsphere.encrypt.tables.customer.columns.first_name.cipherColumn=first_name_cipher
+#spring.shardingsphere.encrypt.tables.customer.columns.first_name.encryptor=encryptor_aes
+spring.shardingsphere.props.sql.show=true
+spring.shardingsphere.props.query.with.cipher.column=false
+````
